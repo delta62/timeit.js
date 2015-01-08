@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>timeit.js</title>
+        <link rel="stylesheet" href="/vendor/mocha/mocha.css" />
+    </head>
+    <body>
+        <div id="mocha"></div>
+
+        <script src="/dist/timeit.js"></script>
+        <script src="/vendor/chai/chai.js"></script>
+        <script src="/vendor/mocha/mocha.js"></script>
+        <script>mocha.setup('bdd');</script>
+
+        <!-- Tests -->
+        <script src="/test/core.js"></script>
+
+        <!-- Run the things -->
+        <script>
+            var expect = chai.expect;
+
+            mocha.checkLeaks();
+            mocha.run();
+        </script>
+    </body>
+</html>
