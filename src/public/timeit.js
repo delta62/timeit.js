@@ -18,17 +18,15 @@
         emit: emitTimer
     };
 
-    var defaultOptions = {
-        prot: 'http',
-        host: 'localhost',
-        port: undefined,
-        path: '/'
-    };
-
-
-
     function configureTimeit(opts) {
+        var defaultOptions = {
+            prot: 'http',
+            host: 'localhost',
+            port: undefined,
+            path: '/'
+        };
 
+        extend(opts, defaultOptions);
     }
 
     function emitTimer(type) {
