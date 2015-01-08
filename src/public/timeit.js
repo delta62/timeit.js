@@ -14,8 +14,7 @@
      */
 
     var timeitConfig;
-
-    window.timeit = {
+    var timeit = {
         configure: configureTimeit,
         emit: emitTimer
     };
@@ -36,15 +35,16 @@
         var pit = createPointInTime(type);
         logPointInTime(pit);
         var xhr = createXHR(pit);
-        sendXHR(xhr);
-        console.log('sent!');
+        var serializedPit = JSON.stringify(pit);
+        sendXHR(xhr, serializedPit);
     }
 
     // TODO: Debounce this guy
-    function sendXHR(xhr) {
+    function sendXHR(xhr, body) {
         uri = 'http://localhost:8080/data';
         xhr.open('post', uri, true);
-        xhr.send();
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(body);
     }
 
     function createPointInTime(name, data) {
@@ -64,20 +64,14 @@
     }
 
     function createXHR(pit, success, error) {
-        // Serialize the data
-        // var data = JSON.stringify(pit.data);
-
         // Create an XHR object
         var xhr = new XMLHttpRequest();
         // Attach the data
 
-
-        // Attach success callback
+        // Attach callbacks
         if (success) {
             xhr.onload = success;
         }
-
-        // Attach error callback
         if (error) {
             xhr.onerror = error;
         }
@@ -87,5 +81,15 @@
     }
 
     configureTimeit();
+
+    // Register as an AMD module if supported, otherwise create a global object
+    if (typeof 'define' === 'function' && define.amd) {
+        define([], function() {
+            return timeit;
+        });
+    } else {
+        console.log('Warning: including timeit as a global.');
+        window.timeit = timeit;
+    }
 })();
 
