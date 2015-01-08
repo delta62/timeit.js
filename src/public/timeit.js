@@ -13,6 +13,8 @@
      *  }
      */
 
+    var timeitConfig;
+
     window.timeit = {
         configure: configureTimeit,
         emit: emitTimer
@@ -26,19 +28,23 @@
             path: '/'
         };
 
-        extend(opts, defaultOptions);
+        // Publish the settings globally to timeit
+        timeitConfig = defaultOptions;
     }
 
     function emitTimer(type) {
         var pit = createPointInTime(type);
         logPointInTime(pit);
         var xhr = createXHR(pit);
-        console.log(xhr);
+        sendXHR(xhr);
+        console.log('sent!');
     }
 
     // TODO: Debounce this guy
-    function sendXHR(XHR) {
-
+    function sendXHR(xhr) {
+        uri = 'http://localhost:8080/data';
+        xhr.open('post', uri, true);
+        xhr.send();
     }
 
     function createPointInTime(name, data) {
@@ -80,5 +86,6 @@
         return xhr;
     }
 
+    configureTimeit();
 })();
 
