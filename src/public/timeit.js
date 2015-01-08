@@ -1,16 +1,12 @@
 (function() {
 
-    function addEventListener(el, type, callback) {
-        if (el.addEventListener) {
-            el.addEventListener(type, callback);
-        } else {
-            el.attachEvent(type, callback);
-        }
-    }
+    window.timeit = {
+        emit: emitTimer
+    };
 
-    addEventListener(document, 'timeit', function() {
-        console.log('got a timeit event!');
-    });
+    function emitTimer(type) {
+        console.log('emitting "' + type + '"');
+    }
 
 })();
 
