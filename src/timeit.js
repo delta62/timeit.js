@@ -1,22 +1,46 @@
 (function() {
 
+    var sequence = require('./sequence');
+
     /**
      * XHR Format
      * ----------
      *
      * This is a point in time (pit):
      *
-     *  {
-     *      name: 'eventname',
-     *      data: { ... } || null
-     *      timestamp: 1234567890
-     *  }
+     * [
+     *     {
+     *         name: 'eventname',
+     *         data: { ... } || null,
+     *         sequence: 'someid',
+     *         timestamp: 1234567890
+     *     }
+     *     , ...
+     *  ]
      */
 
     var timeitConfig;
-    var timeit = {
-        configure: configureTimeit,
-        emit: emitTimer
+    var timeit = function(name, sequence) {
+        if (!name) {
+            throw new Error('name is required');
+        }
+        if (!sequence) {
+            throw new Error('sequence is required');
+        }
+
+        var pit = createPointInTime(type);
+        logPointInTime(pit);
+        var xhr = createXHR(pit);
+        var serializedPit = JSON.stringify(pit);
+        sendXHR(xhr, serializedPit);
+    };
+
+    timeit.prototype.configure = configureTimeit;
+
+    timeit.prototype.sequence = function(name) {
+        var seq = sequence();
+        timeit(name, seq);
+        return seq;
     };
 
     function configureTimeit(opts) {
@@ -29,14 +53,6 @@
 
         // Publish the settings globally to timeit
         timeitConfig = defaultOptions;
-    }
-
-    function emitTimer(type) {
-        var pit = createPointInTime(type);
-        logPointInTime(pit);
-        var xhr = createXHR(pit);
-        var serializedPit = JSON.stringify(pit);
-        sendXHR(xhr, serializedPit);
     }
 
     // TODO: Debounce this guy

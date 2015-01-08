@@ -17,12 +17,47 @@ describe('timeit', function() {
         expect(timeit).to.be.a('function');
     });
 
-    it('should require a name parameter');
-    it('should require a sequence parameter');
+    it('should require a name parameter', function() {
+        expect(function() { timeit(); }).to.throw;
+    });
+
+    it('should require a sequence parameter', function() {
+        expect(function() { timeit('foo'); }).to.throw;
+    });
+
+    describe('when no configuration has taken place', function() {
+
+        it('should throw');
+
+    });
+
+    describe('when timeit has been configured', function() {
+
+        it('should log the event to console');
+
+        it('should trigger an XHR event');
+
+    });
+
+    describe('when sending an XHR request', function() {
+
+        it('should include a timestamp');
+
+        it('should include an event name');
+
+        it('should include a sequence number');
+
+    });
 });
 
 describe('timeit.sequence', function() {
+
     it('should be callable');
+
     it('should return an identifier');
+
     it('should not return the same identifier twice');
+
+    it('should implicitly call timeit()');
+
 });
