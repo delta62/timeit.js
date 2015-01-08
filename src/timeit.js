@@ -88,7 +88,7 @@
             return timeit;
         });
     } else {
-        console.log('Warning: including timeit as a global.');
+        console.log('Warning: globally exporting timeit');
         window.timeit = timeit;
     }
 })();
