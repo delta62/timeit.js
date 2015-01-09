@@ -1,6 +1,9 @@
 (function() {
 
-    var sequence = require('./sequence');
+    var configure = require('./config'),
+        sequence = require('./sequence');
+
+    var timeitConfig;
 
     var timeit = function(name, sequence) {
         if (!name) {
@@ -19,6 +22,10 @@
         return seq;
     };
 
+    timeit.config = function(configOpts) {
+        timeitConfig = configure(configOpts);
+    };
+
     function createPointInTime(name, sequenceID) {
         return {
             name: name,
@@ -27,12 +34,12 @@
         };
     }
 
-    // Register as an AMD module if supported, otherwise create a global object
+    // Register as an AMD module if supported
     if (typeof 'define' === 'function' && define.amd) {
         define([], function() {
             return timeit;
         });
-    } else {
-        window.timeit = timeit;
     }
+    window.timeit = timeit;
+
 })();

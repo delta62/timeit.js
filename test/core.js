@@ -1,15 +1,24 @@
-describe('timeit.js core', function() {
+describe('timeit core', function() {
     it('should define timeit globally', function() {
         expect(timeit).to.exist;
     });
 
-    describe('when AMD support is present', function() {
-        it('should define an AMD module');
+    it('should expose timeit.sequence', function() {
+        expect(timeit.sequence).to.be.a('function');
     });
 
-    describe('when AMD support is not present', function() {
-        it('should not define an AMD module');
+    it('should expoese timeit.config', function() {
+        expect(timeit.config).to.be.a('function');
     });
+
+});
+
+describe('when AMD support is present', function() {
+    it('should define an AMD module');
+});
+
+describe('when AMD support is not present', function() {
+    it('should not define an AMD module');
 });
 
 describe('timeit', function() {
@@ -48,4 +57,18 @@ describe('timeit', function() {
         it('should include a sequence number');
 
     });
+});
+
+describe('timeit.sequence', function() {
+
+    it('should request an id from the sequence module');
+
+    it('should return the sequence id');
+
+    it('should implicitly call timeit');
+
+    it('should call timeit with the same name');
+
+    it('should call timeit with the sequence id');
+
 });
