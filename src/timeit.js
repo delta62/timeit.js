@@ -28,11 +28,17 @@
     };
 
     function createPointInTime(name, sequenceID) {
-        return {
+        var pit = {
             name: name,
-            timestamp: new Date().getUTCTime(),
+            Time(),
             sequence: sequenceID
         };
+
+        if (timeit.session) {
+            pit.session = timeit.session;
+        }
+
+        return pit;
     }
 
     // Register as an AMD module if supported
