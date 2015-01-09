@@ -49,15 +49,3 @@ describe('timeit', function() {
 
     });
 });
-
-describe('timeit.sequence', function() {
-
-    it('should be callable');
-
-    it('should return an identifier');
-
-    it('should not return the same identifier twice');
-
-    it('should implicitly call timeit()');
-
-});

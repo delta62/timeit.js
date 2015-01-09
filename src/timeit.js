@@ -2,16 +2,18 @@
 
     var sequence = require('./sequence');
 
-    function timeit(name, sequence) {
+    var timeit = function(name, sequence) {
         if (!name) {
             throw new Error('name is required');
         }
         if (!sequence) {
             throw new Error('sequence is required');
         }
+
+        console.log(createPointInTime(name, sequence));
     };
 
-    timeit.prototype.sequence = function(name) {
+    timeit.sequence = function(name) {
         var seq = sequence();
         timeit(name, seq);
         return seq;
@@ -31,8 +33,6 @@
             return timeit;
         });
     } else {
-        console.log('Warning: globally exporting timeit');
         window.timeit = timeit;
     }
 })();
-

@@ -10,15 +10,22 @@ module.exports = function(grunt) {
         },
         connect: {
             test: {
-                options: {
-                    keepalive: true
-                }
+                middleware: require('connect-livereload')()
             }
         },
         browserify: {
             dev: {
                 files: {
-                    'dist/timeit.js': ['src/**/*.js']
+                    'dist/timeit.js': ['src/**/*.js', 'test/**/*.js']
+                }
+            }
+        },
+        watch: {
+            dev: {
+                files: ['src/**/*.js', 'test/**/*.js'],
+                tasks: ['browserify:dev'],
+                options: {
+                    livereload: true
                 }
             }
         }
@@ -27,12 +34,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', ['test']);
 
-    grunt.registerTask('test', [
-        'bower:install',
+    grunt.registerTask('debug', [
         'browserify:dev',
         'connect:test',
+        'watch:dev'
     ]);
 };

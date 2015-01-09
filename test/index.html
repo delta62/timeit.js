@@ -2,26 +2,33 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>timeit.js</title>
+        <title>timeit.js | unit tests</title>
         <link rel="stylesheet" href="/vendor/mocha/mocha.css" />
     </head>
     <body>
         <div id="mocha"></div>
 
-        <script src="/dist/timeit.js"></script>
+        <!-- dem libs -->
         <script src="/vendor/chai/chai.js"></script>
         <script src="/vendor/mocha/mocha.js"></script>
-        <script>mocha.setup('bdd');</script>
-
-        <!-- Tests -->
-        <script src="/test/core.js"></script>
-
-        <!-- Run the things -->
         <script>
             var expect = chai.expect;
+            mocha.setup({
+                ui: 'bdd',
+                ignoreLeaks: false,
+                globals: ['LiveReload']
+            });
+        </script>
 
-            mocha.checkLeaks();
+        <!-- Source + tests -->
+        <script src="/dist/timeit.js"></script>
+
+        <!-- Run all of the things -->
+        <script>
             mocha.run();
         </script>
+
+        <!-- Live reload -->
+        <script src="//localhost:35729/livereload.js"></script>
     </body>
 </html>
