@@ -6,8 +6,8 @@
     timeit.configure = nop;
     timeit.sequence = nop;
 
-    if (typeof require === 'function' && require.amd) {
-        define(function() {
+    if (typeof define === 'function' && define.amd) {
+        define([], function() {
             return timeit;
         });
     }
