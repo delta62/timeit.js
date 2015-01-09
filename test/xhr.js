@@ -95,16 +95,16 @@ describe('XHR Module', function() {
         describe('when an application failure occurs', function() {
 
             before(function() {
+                this.err = sinon.stub(console, 'error');
                 this.lastXHR.respond(500, {}, '');
-                this.log = sinon.stub(console, 'log');
             });
 
             after(function() {
-                this.log.restore();
+                this.err.restore();
             });
 
             it('should log an error', function() {
-                sinon.assert.calledOnce(this.log);
+                sinon.assert.calledOnce(this.err);
             });
 
         });
@@ -112,11 +112,11 @@ describe('XHR Module', function() {
         describe('when a network failure occurs', function() {
 
             before(function() {
-                this.log = sinon.stub(console, 'log');
+                this.err = sinon.stub(console, 'error');
             });
 
             after(function() {
-                this.log.restore();
+                this.err.restore();
             });
 
             it('should log an error', function() {

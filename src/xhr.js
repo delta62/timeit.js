@@ -11,16 +11,14 @@ function createURI() {
         configuration.path;
 }
 
-function createXHR() {
-
-}
-
 function xhrLoaded() {
-
+    if (this.status != 200) {
+        console.error('Application error attempting to send data');
+    }
 }
 
 function xhrError() {
-
+    console.error('Network error attempting to send data');
 }
 
 module.exports = {
