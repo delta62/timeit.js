@@ -30,7 +30,7 @@
     function createPointInTime(name, sequenceID) {
         var pit = {
             name: name,
-            timestamp: new date().getTime(),
+            timestamp: new Date().getTime(),
             sequence: sequenceID
         };
 

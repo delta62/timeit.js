@@ -21,6 +21,15 @@ function xhrError() {
     console.error('Network error attempting to send data');
 }
 
+function sendXHR(uri, body) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = xhrLoaded;
+    xhr.onerror = xhrError;
+    xhr.open('post', uri);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(body);
+}
+
 module.exports = {
     configure: function(configData) {
         if (!configData) {
@@ -32,14 +41,7 @@ module.exports = {
         configuration = configData;
     },
     send: function(pit) {
-        var pitArray = [pit];
-        var serializedPit = serializePit(pitArray);
-        var uri = createURI();
-        var xhr = new XMLHttpRequest();
-        xhr.onload = xhrLoaded;
-        xhr.onerror = xhrError;
-        xhr.open('post', uri);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(serializedPit);
+        var serialData = serializePit(pit);
+        sendXHR(createURI(), serialData);
     }
 };
