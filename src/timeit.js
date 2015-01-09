@@ -1,9 +1,8 @@
 (function() {
 
     var configure = require('./config'),
-        sequence = require('./sequence');
-
-    var timeitConfig;
+        sequence = require('./sequence'),
+        xhr = require('./xhr');
 
     var timeit = function(name, sequence) {
         if (!name) {
@@ -13,7 +12,8 @@
             throw new Error('sequence is required');
         }
 
-        console.log(createPointInTime(name, sequence));
+        var pit = createPointInTime(name, sequence);
+        xhr.send(pit);
     };
 
     timeit.sequence = function(name) {
@@ -23,7 +23,8 @@
     };
 
     timeit.config = function(configOpts) {
-        timeitConfig = configure(configOpts);
+        var config = configure(configOpts);
+        xhr.configure(config);
     };
 
     function createPointInTime(name, sequenceID) {

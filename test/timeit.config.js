@@ -4,4 +4,6 @@ describe('timeit.config', function() {
         expect(timeit.config).to.be.a('function');
     });
 
+    it('should send configuration data to config module');
+
 });

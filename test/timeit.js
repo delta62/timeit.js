@@ -1,4 +1,5 @@
 describe('timeit', function() {
+
     it('should be defined globally', function() {
         expect(timeit).to.exist;
     });
@@ -15,12 +16,19 @@ describe('timeit', function() {
         expect(function() { timeit('foo'); }).to.throw;
     });
 
-    describe('when timeit has been configured', function() {
+    it('should log the event to console', function() {
+        var consoleStub = sinon.stub(console, 'log');
+        timeit('foo', 'bar');
+        consoleStub.restore();
+        sinon.assert.calledOnce(consoleStub);
+    });
 
-        it('should log the event to console');
-
-        it('should trigger an XHR event');
-
+    it('should trigger an XHR event', function() {
+      var xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = sinon.stub();
+      timeit('foo', 'bar');
+      xhr.restore();
+      sinon.assert.calledOnce(xhr.onCreate);
     });
 
 });
