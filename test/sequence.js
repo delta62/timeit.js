@@ -18,6 +18,4 @@ describe('Sequence Module', function() {
         expect(uid1).not.to.equal(uid2);
     });
 
-    it('should implicitly call timeit()');
-
 });
