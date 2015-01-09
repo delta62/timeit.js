@@ -1,6 +1,9 @@
 var configuration = { };
 
 function serializePit(pit) {
+    if (pit.constructor !== Array) {
+        pit = [pit];
+    }
     return JSON.stringify(pit);
 }
 
