@@ -30,14 +30,15 @@
     function createPointInTime(name, sequenceID) {
         return {
             name: name,
-            timestamp: new Date().getTime(),
+            timestamp: new Date().getUTCTime(),
             sequence: sequenceID
         };
     }
 
     // Register as an AMD module if supported
     if (typeof define === 'function' && define.amd) {
-        define(function() {
+        define(['timeit-config'], function(options) {
+            timeit.config(options);
             return timeit;
         });
     }

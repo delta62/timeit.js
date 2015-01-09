@@ -16,12 +16,12 @@ module.exports = function(grunt) {
         browserify: {
             dev: {
                 files: {
-                    'dist/timeit.js': ['src/**/*.js', 'test/**/*.js']
+                    'dist/timeit.js': ['src/**/*.js', '!src/timeit.nop.js', 'test/**/*.js']
                 }
             },
             dist: {
                 files: {
-                    'dist/timeit.js': ['src/**/*.js']
+                    'dist/timeit.js': ['src/**/*.js', '!src/timeit.nop.js']
                 }
             }
         },
@@ -33,9 +33,17 @@ module.exports = function(grunt) {
                     livereload: true
                 }
             }
+        },
+        copy: {
+            nop: {
+                files: {
+                    'dist/timeit.nop.js': ['src/timeit.nop.js']
+                }
+            }
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-connect');
@@ -52,6 +60,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('build', [
+        'copy:nop',
         'browserify:dist'
     ]);
 };

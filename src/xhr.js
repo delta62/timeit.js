@@ -39,6 +39,7 @@ module.exports = {
         xhr.onload = xhrLoaded;
         xhr.onerror = xhrError;
         xhr.open('post', uri);
+        xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(serializedPit);
     }
 };
