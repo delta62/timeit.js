@@ -1,5 +1,13 @@
 describe('timeit', function() {
 
+    before(function() {
+        this.xhr = sinon.useFakeXMLHttpRequest();
+    });
+
+    after(function() {
+        this.xhr.restore();
+    });
+
     it('should be defined globally', function() {
         expect(timeit).to.exist;
     });

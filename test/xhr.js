@@ -34,6 +34,12 @@ describe('XHR Module', function() {
                 port:     9001,
                 path:     '/baz'
             });
+            
+            this.pit = {
+                name:      'foo',
+                sequence:  'bar',
+                timestamp: 12345
+            };
         });
 
         it('should throw when no pit is given', function() {
@@ -51,27 +57,71 @@ describe('XHR Module', function() {
 
         describe('when sending an XHR', function() {
 
-            it('should use the configured endpoint');
+            beforeEach(function() {
+                this.requestBody = JSON.parse(this.lastXHR.requestBody);
+            });
 
-            it('should send an array of pit objects');
+            it('should POST the data', function() {
+                var method = this.lastXHR.method.toLowerCase();
+                expect(method).to.equal('post');
+            });
 
-            it("should include each pit's name");
+            it('should use the configured endpoint', function() {
+                var hostMatcher = /foo\.bar/;
+                expect(this.lastXHR.url).to.match(hostMatcher);
+            });
 
-            it("should include each pit's timestamp");
+            it('should send an array of pit objects', function() {
+                expect(this.requestBody).to.be.an('array');
+            });
 
-            it("should include each pit's sequence id");
+            it("should include each pit's name", function() {
+                var requestName = this.requestBody[0].name;
+                expect(requestName).to.equal(this.pit.name);
+            });
+
+            it("should include each pit's timestamp", function() {
+                var requestTimestamp = this.requestBody[0].timestamp;
+                expect(requestTimestamp).to.equal(this.pit.timestamp);
+            });
+
+            it("should include each pit's sequence id", function() {
+                var requestSequence = this.requestBody[0].sequence;
+                expect(requestSequence).to.equal(this.pit.sequence);
+            });
 
         });
 
-        desrcribe('when an application failure occurs', function() {
+        describe('when an application failure occurs', function() {
 
-            it('should log an error');
+            before(function() {
+                this.lastXHR.respond(500, {}, '');
+                this.log = sinon.stub(console, 'log');
+            });
+
+            after(function() {
+                this.log.restore();
+            });
+
+            it('should log an error', function() {
+                sinon.assert.calledOnce(this.log);
+            });
 
         });
 
         describe('when a network failure occurs', function() {
 
-            it('should log an error');
+            before(function() {
+                this.log = sinon.stub(console, 'log');
+            });
+
+            after(function() {
+                this.log.restore();
+            });
+
+            it('should log an error', function() {
+                this.lastXHR.onerror();
+            });
 
         });
 

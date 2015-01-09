@@ -11,6 +11,18 @@ function createURI() {
         configuration.path;
 }
 
+function createXHR() {
+
+}
+
+function xhrLoaded() {
+
+}
+
+function xhrError() {
+
+}
+
 module.exports = {
     configure: function(configData) {
         if (!configData) {
@@ -19,11 +31,15 @@ module.exports = {
         if (typeof configData !== 'object') {
             throw new Error('Invalid configuration data');
         }
+        configuration = configData;
     },
     send: function(pit) {
-        var serializedPit = serializePit(pit);
+        var pitArray = [pit];
+        var serializedPit = serializePit(pitArray);
         var uri = createURI();
         var xhr = new XMLHttpRequest();
+        xhr.onload = xhrLoaded;
+        xhr.onerror = xhrError;
         xhr.open('post', uri);
         xhr.send(serializedPit);
     }
