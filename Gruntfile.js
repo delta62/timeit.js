@@ -18,6 +18,11 @@ module.exports = function(grunt) {
                 files: {
                     'dist/timeit.js': ['src/**/*.js', 'test/**/*.js']
                 }
+            },
+            dist: {
+                files: {
+                    'dist/timeit.js': ['src/**/*.js']
+                }
             }
         },
         watch: {
@@ -36,11 +41,17 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['test']);
+    grunt.registerTask('default', [
+        'build'
+    ]);
 
     grunt.registerTask('debug', [
         'browserify:dev',
         'connect:test',
         'watch:dev'
+    ]);
+
+    grunt.registerTask('build', [
+        'browserify:dist'
     ]);
 };
