@@ -36,8 +36,8 @@
     }
 
     // Register as an AMD module if supported
-    if (typeof 'define' === 'function' && define.amd) {
-        define([], function() {
+    if (typeof define === 'function' && define.amd) {
+        define(function() {
             return timeit;
         });
     }
