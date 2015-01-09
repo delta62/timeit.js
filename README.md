@@ -1,12 +1,15 @@
 # XHR Format
 
-``` json
+``` javascript
 [
     {
+        // Required
         "name": "eventname",
-        "session": "default",
         "sequence": "someid",
-        "timestamp": 1234567890
+        "timestamp": 1234567890,
+        
+        // Optional
+        "session": "my session"
     }
     , ...
  ]
