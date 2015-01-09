@@ -1,9 +1,35 @@
 var configuration = { };
+var pitData = [ ];
+
+// Borrowed from underscore
+function debounce(func, wait) {
+    var timeout, args, context, timestamp, result;
+
+    var later = function() {
+        var last = new Date().getTime() - timestamp;
+
+        if (last < wait && last > 0) {
+            timeout = setTimeout(later, wait - last);
+        } else {
+            timeout = null;
+            result = func.apply(context, args);
+            if (!timeout) context = args = null;
+        }
+    };
+
+    return function() {
+        context = this;
+        args = arguments;
+        timestamp = new Date().getTime();
+        if (!timeout) {
+            timeout = setTimeout(later, wait);
+        }
+
+        return result;
+    };
+};
 
 function serializePit(pit) {
-    if (pit.constructor !== Array) {
-        pit = [pit];
-    }
     return JSON.stringify(pit);
 }
 
@@ -24,14 +50,18 @@ function xhrError() {
     console.error('Network error attempting to send data');
 }
 
-function sendXHR(uri, body) {
+function sendXHR() {
+    var uri = createURI();
+    var serialData = serializePit(pitData);
     var xhr = new XMLHttpRequest();
     xhr.onload = xhrLoaded;
     xhr.onerror = xhrError;
     xhr.open('post', uri);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(body);
+    xhr.send(serialData);
 }
+
+var sendXHRDebounced = debounce(sendXHR, 1000);
 
 module.exports = {
     configure: function(configData) {
@@ -44,7 +74,7 @@ module.exports = {
         configuration = configData;
     },
     send: function(pit) {
-        var serialData = serializePit(pit);
-        sendXHR(createURI(), serialData);
+        pitData.push(pit);
+        sendXHRDebounced();
     }
 };
