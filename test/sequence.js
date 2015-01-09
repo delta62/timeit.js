@@ -1,6 +1,6 @@
 var sequence = require('../src/sequence');
 
-describe('sequence module', function() {
+describe('Sequence Module', function() {
 
     it('should be callable', function() {
         expect(sequence).to.be.a('function');
